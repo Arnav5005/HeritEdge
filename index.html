@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heritedge - Digital Heritage Platform for Sikkim's Monasteries</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <h2 class="nav__logo">Heritedge</h2>
+                <span class="nav__subtitle">Digital Heritage</span>
+            </div>
+            <ul class="nav__menu" id="navMenu">
+                <li><a href="#home" class="nav__link active" data-page="home">Home</a></li>
+                <li><a href="#explore" class="nav__link" data-page="explore">Explore</a></li>
+                <li><a href="#map" class="nav__link" data-page="map">Map</a></li>
+                <li><a href="#calendar" class="nav__link" data-page="calendar">Calendar</a></li>
+                <li><a href="#about" class="nav__link" data-page="about">About</a></li>
+            </ul>
+            <button class="nav__toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="main">
+        <!-- Landing Page -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <div class="hero__background">
+                    <img src="https://pplx-res.cloudinary.com/image/upload/v1755032011/pplx_project_search_images/180384246c00f12346b2567f3e5d23cf9eba4dc5.png" alt="Rumtek Monastery" class="hero__image">
+                </div>
+                <div class="hero__content container">
+                    <h1 class="hero__title">Experience Sikkim's Spiritual Heritage Digitally</h1>
+                    <p class="hero__description">Discover the sacred monasteries of Sikkim, where ancient wisdom meets modern exploration. Journey through centuries of Buddhist heritage in the heart of the Himalayas.</p>
+                    <div class="hero__actions">
+                        <button class="btn btn--primary btn--lg" data-page="explore">Explore Monasteries</button>
+                        <button class="btn btn--outline btn--lg" data-page="map">View Map</button>
+                        <button class="btn btn--outline btn--lg" data-page="calendar">Cultural Calendar</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="highlights container">
+                <div class="highlights__grid">
+                    <div class="highlight-card">
+                        <div class="highlight-card__image">
+                            <img src="https://pplx-res.cloudinary.com/image/upload/v1758380402/pplx_project_search_images/6ba3ba59ba4f21600862b53ba798f55111a2d8d4.png" alt="Traditional Architecture" loading="lazy">
+                        </div>
+                        <h3 class="highlight-card__title">Sacred Architecture</h3>
+                        <p class="highlight-card__description">Explore centuries-old traditional Tibetan Buddhist architecture</p>
+                    </div>
+                    <div class="highlight-card">
+                        <div class="highlight-card__image">
+                            <img src="https://pplx-res.cloudinary.com/image/upload/v1757670078/pplx_project_search_images/1e85db1f99be5c715dbffadb02f0182b95de1c1c.png" alt="Cultural Festivals" loading="lazy">
+                        </div>
+                        <h3 class="highlight-card__title">Living Traditions</h3>
+                        <p class="highlight-card__description">Witness vibrant festivals and ancient Buddhist ceremonies</p>
+                    </div>
+                    <div class="highlight-card">
+                        <div class="highlight-card__image">
+                            <img src="https://pplx-res.cloudinary.com/image/upload/v1758380399/pplx_project_search_images/0f19fd4f5b4b00a571a61a07cab0a0475132cb09.png" alt="Spiritual Heritage" loading="lazy">
+                        </div>
+                        <h3 class="highlight-card__title">Spiritual Journey</h3>
+                        <p class="highlight-card__description">Discover sacred sites blessed by Guru Padmasambhava</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Explore Page -->
+        <section id="explore" class="page">
+            <div class="page-header container">
+                <h1 class="page-title">Explore Monasteries</h1>
+                <p class="page-description">Discover Sikkim's sacred Buddhist monasteries, each with unique history and spiritual significance</p>
+            </div>
+            
+            <div class="explore-filters container">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Search monasteries..." class="form-control">
+                </div>
+                <div class="filter-buttons">
+                    <button class="btn btn--secondary active" data-filter="all">All</button>
+                    <button class="btn btn--secondary" data-filter="historic">Historic</button>
+                    <button class="btn btn--secondary" data-filter="festival">Festival</button>
+                    <button class="btn btn--secondary" data-filter="architecture">Architecture</button>
+                </div>
+            </div>
+
+
+            <div class="monasteries-grid container" id="monasteriesGrid">
+                <!-- Monastery cards will be populated by JavaScript -->
+            </div>
+        </section>
+
+
+        <!-- Monastery Detail Page -->
+        <section id="monastery-detail" class="page">
+            <div class="monastery-detail" id="monasteryDetailContent">
+                <!-- Detail content will be populated by JavaScript -->
+                
+                <!-- Simple Image Gallery Section -->
+                <div class="monastery-images">
+                    <h3>Monastery Images</h3>
+                    <div class="images-grid">
+                        <div class="image-item">
+                            <img src="https://pplx-res.cloudinary.com/image/upload/v1755032011/pplx_project_search_images/d046e5a4bc7f2ac24a41d59c43b03a3ea7cf3ea7.png" alt="Pemayangtse Monastery Exterior" loading="lazy">
+                        </div>
+                        <div class="image-item">
+                            <img src="https://pplx-res.cloudinary.com/image/upload/v1755032011/pplx_project_search_images/180384246c00f12346b2567f3e5d23cf9eba4dc5.png" alt="Monastery Architecture" loading="lazy">
+                        </div>
+                        <div class="image-item">
+                            <img src="https://pplx-res.cloudinary.com/image/upload/v1755032011/pplx_project_search_images/b71ec1d4a6f6a5ae79bad9c35e3b7bb65e2736ad.png" alt="Interior Prayer Hall" loading="lazy">
+                        </div>
+                        <div class="image-item">
+                            <img src="https://pplx-res.cloudinary.com/image/upload/v1755032011/pplx_project_search_images/cd59e3b4ab89b56b0a92c4be3c5ed6fe73ed6e52.png" alt="Prayer Flags" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Interactive Map Page -->
+        <section id="map" class="page">
+            <div class="page-header container">
+                <h1 class="page-title">Interactive Map</h1>
+                <p class="page-description">Explore the geographical locations of Sikkim's monasteries</p>
+            </div>
+            
+            <div class="map-container">
+                <div id="monasteryMap" class="monastery-map"></div>
+            </div>
+            
+            <div class="map-legend container">
+                <div class="legend-item">
+                    <div class="legend-marker historic"></div>
+                    <span>Historic Monasteries</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-marker festival"></div>
+                    <span>Festival Centers</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-marker architecture"></div>
+                    <span>Architectural Marvels</span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Cultural Calendar Page -->
+        <section id="calendar" class="page">
+            <div class="page-header container">
+                <h1 class="page-title">Cultural Calendar</h1>
+                <p class="page-description">Discover upcoming Buddhist festivals and cultural events</p>
+            </div>
+            
+            <div class="calendar-filters container">
+                <div class="filter-buttons">
+                    <button class="btn btn--secondary active" data-filter="all">All Events</button>
+                    <button class="btn btn--secondary" data-filter="rumtek">Rumtek</button>
+                    <button class="btn btn--secondary" data-filter="tashiding">Tashiding</button>
+                    <button class="btn btn--secondary" data-filter="pemayangtse">Pemayangtse</button>
+                </div>
+            </div>
+
+
+            <div class="events-grid container" id="eventsGrid">
+                <!-- Events will be populated by JavaScript -->
+            </div>
+        </section>
+
+
+        <!-- About Page -->
+        <section id="about" class="page">
+            <div class="about-content container">
+                <div class="about-header">
+                    <h1 class="page-title">About Heritedge</h1>
+                    <p class="page-description">Preserving Sikkim's spiritual heritage for future generations</p>
+                </div>
+
+
+                <div class="about-sections">
+                    <div class="about-section">
+                        <h2>Our Mission</h2>
+                        <p>Heritedge aims to preserve and promote Sikkim's rich Buddhist heritage through digital innovation. Our platform serves as a bridge between ancient wisdom and modern technology, making the spiritual treasures of Sikkim's monasteries accessible to people worldwide.</p>
+                    </div>
+
+
+                    <div class="about-section">
+                        <h2>Our Vision</h2>
+                        <p>To create a comprehensive digital repository of Sikkim's monastic heritage, fostering cultural understanding and supporting sustainable tourism that benefits local communities.</p>
+                    </div>
+
+
+                    <div class="about-section">
+                        <h2>Cultural Significance</h2>
+                        <p>Sikkim, known as Beyul Demozong (the hidden sacred land), has been blessed by Guru Padmasambhava and serves as a spiritual sanctuary. With over 200 monasteries representing various Buddhist sects, Sikkim stands as a beacon of Buddhist learning and practice in the Himalayas.</p>
+                    </div>
+
+
+                    <div class="government-section">
+                        <h2>Government Partnership</h2>
+                        <div class="government-info">
+                            <div class="government-logo">
+                                <div class="gov-emblem"></div>
+                            </div>
+                            <div class="government-text">
+                                <h3>Department of Higher & Technical Education</h3>
+                                <h4>Government of Sikkim</h4>
+                                <p>This initiative is supported by the Government of Sikkim's commitment to preserving and promoting the state's cultural heritage while embracing digital transformation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__content container">
+            <div class="footer__section">
+                <h3 class="footer__title">Heritedge</h3>
+                <p class="footer__description">Digital Heritage Platform for Sikkim's Monasteries</p>
+            </div>
+            
+            <div class="footer__section">
+                <h4 class="footer__subtitle">Quick Links</h4>
+                <ul class="footer__links">
+                    <li><a href="#home" data-page="home">Home</a></li>
+                    <li><a href="#explore" data-page="explore">Explore</a></li>
+                    <li><a href="#map" data-page="map">Map</a></li>
+                    <li><a href="#calendar" data-page="calendar">Calendar</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer__section">
+                <h4 class="footer__subtitle">Contact</h4>
+                <div class="footer__contact">
+                    <p>Department of Higher & Technical Education</p>
+                    <p>Government of Sikkim</p>
+                    <p>Email: arnavpratapsingh2006@gmail.com</p>
+                </div>
+            </div>
+            
+            <div class="footer__section">
+                <h4 class="footer__subtitle">Follow Us</h4>
+                <div class="social-links">
+                    <a href="#" target="_blank" rel="noopener" aria-label="Facebook">Facebook</a>
+                    <a href="#" target="_blank" rel="noopener" aria-label="Twitter">Twitter</a>
+                    <a href="#" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer__bottom container">
+            <p>&copy; 2025 Heritedge. All rights reserved. Government of ABES CSE DS.</p>
+        </div>
+    </footer>
+
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
