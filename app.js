@@ -534,6 +534,11 @@ function createMonasteryDetailHTML(monastery) {
                             <strong>Major Festivals:</strong>
                             <span>${monastery.festivals.join(', ')}</span>
                         </div>
+                        <!-- Call-to-action buttons: View Images & 3D View -->
+                        <div class="detail-actions" style="margin-top:12px; display:flex; gap:10px;">
+                            <button id="btnViewImages" class="btn btn--primary btn--sm" aria-label="View Images">View Images</button>
+                            <button id="btn3DView" class="btn btn--outline btn--sm" aria-label="3D View">3D View</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -737,3 +742,96 @@ document.addEventListener('keydown', function(e) {
 
 // Global function for inline onclick handlers
 window.showMonasteryDetail = showMonasteryDetail;
+
+// Lightweight handlers for Quick Information CTAs
+function hookDetailCTAs() {
+    // Buttons are re-created each time detail is rendered; hook after render
+    const btnImages = document.getElementById('btnViewImages');
+    const btn3D = document.getElementById('btn3DView');
+
+    if (btnImages) {
+        btnImages.addEventListener('click', function(e) {
+            e.stopPropagation();
+            console.log('View Images clicked for', currentMonastery ? currentMonastery.id : 'unknown');
+            // Open the simple image gallery - for now, just open the first image in a new tab
+            const imgUrl = currentMonastery && currentMonastery.images && currentMonastery.images.length > 0
+                ? currentMonastery.images[0]
+                : 'https://pannellum.org/images/cerro-toco-0.jpg';
+            window.open(imgUrl, '_blank');
+        });
+    }
+
+    if (btn3D) {
+        btn3D.addEventListener('click', function(e) {
+            e.stopPropagation();
+            console.log('3D View clicked for', currentMonastery ? currentMonastery.id : 'unknown');
+            // Launch pannellum overlay with the first equirectangular image available
+            const panoUrl = currentMonastery && currentMonastery.images && currentMonastery.images.length > 0
+                ? currentMonastery.images[0]
+                : 'https://pannellum.org/images/cerro-toco-0.jpg';
+
+            // Ensure the overlay exists
+            const overlay = document.getElementById('pannellumOverlay');
+            const viewerEl = document.getElementById('pannellumViewer');
+            if (!overlay || !viewerEl) {
+                console.error('Pannellum overlay or viewer element missing in HTML');
+                return;
+            }
+
+            // Show overlay
+            overlay.classList.add('active');
+            overlay.setAttribute('aria-hidden', 'false');
+
+            // Create or load pannellum viewer
+            try {
+                if (window._pannellumInstance) {
+                    // If existing instance, load new scene
+                    window._pannellumInstance.loadScene('scene-1');
+                    // We will simply set the new panorama by destroying and re-creating
+                    window._pannellumInstance.destroy();
+                    window._pannellumInstance = null;
+                }
+
+                window._pannellumInstance = pannellum.viewer('pannellumViewer', {
+                    type: 'equirectangular',
+                    panorama: panoUrl,
+                    autoLoad: true,
+                    showZoomCtrl: true,
+                    showFullscreenCtrl: true,
+                    yaw: 0,
+                    pitch: 0,
+                    hfov: 100
+                });
+            } catch (err) {
+                console.error('Error creating pannellum viewer:', err);
+            }
+        });
+    }
+
+    // Close button for pannellum overlay
+    const pannellumClose = document.getElementById('pannellumClose');
+    if (pannellumClose) {
+        pannellumClose.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const overlay = document.getElementById('pannellumOverlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+                overlay.setAttribute('aria-hidden', 'true');
+            }
+            if (window._pannellumInstance) {
+                try { window._pannellumInstance.destroy(); } catch (e) { /* ignore */ }
+                window._pannellumInstance = null;
+            }
+        });
+    }
+}
+
+// Hook CTAs whenever a monastery detail is shown
+const originalShowMonasteryDetail = showMonasteryDetail;
+showMonasteryDetail = function(monasteryId) {
+    originalShowMonasteryDetail(monasteryId);
+    // small timeout to ensure DOM is updated
+    setTimeout(() => {
+        hookDetailCTAs();
+    }, 50);
+};
