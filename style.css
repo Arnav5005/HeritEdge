@@ -1693,3 +1693,44 @@ header {
     outline: 2px solid var(--heritage-burgundy);
     outline-offset: 2px;
 }
+
+/* Monastery detail action buttons (Quick Information CTAs) */
+.detail-actions .btn {
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .detail-actions {
+    flex-direction: column;
+  }
+  .detail-actions .btn {
+    width: 100%;
+  }
+}
+
+/* Pannellum overlay styles for 360 viewer */
+.pannellum-overlay {
+  display: none; /* toggled via JS */
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(0,0,0,0.92);
+  align-items: stretch;
+  justify-content: stretch;
+}
+.pannellum-overlay.active {
+  display: flex;
+}
+.pannellum-controls {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 100000;
+}
+.pannellum-overlay .btn {
+  padding: 10px 12px;
+  border-radius: 8px;
+}
